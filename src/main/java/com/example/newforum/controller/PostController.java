@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/posts")
@@ -30,4 +32,8 @@ public class PostController {
         return postService.getPost(postId);
     }
 
+    @GetMapping
+    public List<PostResponseDto> getPosts() {
+        return postService.getPosts();
+    }
 }
