@@ -3,6 +3,8 @@ package com.example.newforum.service;
 import com.example.newforum.Dto.PostAddRequestDto;
 import com.example.newforum.Dto.PostResponseDto;
 import com.example.newforum.Dto.PostUpdateRequestDto;
+import com.example.newforum.controller.exception.AuthorizeException;
+import com.example.newforum.controller.exception.PostNotFoundException;
 import com.example.newforum.entity.PostEntity;
 import com.example.newforum.repository.PostJpaRepository;
 import jakarta.transaction.Transactional;
@@ -54,12 +56,12 @@ public class PostService {
 
     private PostEntity getPostEntity(Long postId) {
         return postJpaRepository.findById(postId)
-                .orElseThrow(() -> new NullPointerException("해당 게시글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글을 찾을 수 없습니다."));
     }
 
     private static void verifyPassword(PostEntity postEntity, String password) {
         if (!postEntity.matchPassword(password)) {
-            throw new NullPointerException("비밀번호가 일치하지 않습니다.");
+            throw new AuthorizeException("비밀번호가 일치하지 않습니다.");
         }
     }
 }
